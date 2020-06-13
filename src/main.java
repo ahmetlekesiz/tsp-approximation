@@ -22,7 +22,10 @@ public class main {
 			e.printStackTrace();
 		}
 		
-		System.out.println();
+		 int V = 4;  // Number of vertices in graph 
+	     int E = 5;  // Number of edges in graph 
+	     graph graph = new graph(V, E); 
+		
 	}
 
 }
