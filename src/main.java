@@ -24,14 +24,13 @@ public class main {
 	    
 		// Read input file line by line by using scanner
 		try {
-			Scanner scanner = new Scanner(new File("./inputs/example-input-2.txt"));
+			Scanner scanner = new Scanner(new File("./inputs/example-input-1.txt"));
 			while (scanner.hasNextLine()) {
 				// Clean white spaces
 				String cleanResult = cleanInput(scanner.nextLine());
 				String[] arr = cleanResult.split("\\s+");
 				// Adding to linked list
 				cityList.add(new int[] {Integer.parseInt(arr[0]), Integer.parseInt(arr[1]), Integer.parseInt(arr[2])});
-				// Adding to graph
 				V++; // Increment the vertices 
 			}
 			scanner.close();
@@ -61,11 +60,8 @@ public class main {
 		}
 	    
 	    System.out.println(edgeCounter);
-	 
-	    graph.edge[1].src = 0; 
-	    graph.edge[1].dest = 2; 
-	    graph.edge[1].weight = 6; 
 	  
+        graph.KruskalMST(); 
 	    System.out.println();
 	}
 
