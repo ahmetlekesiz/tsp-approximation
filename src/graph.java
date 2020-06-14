@@ -13,8 +13,9 @@ public class graph {
         V = v; 
         E = e; 
         edge = new edge[E]; 
-        for (int i=0; i<e; ++i) 
+        for (int i=0; i<e; ++i) {
             edge[i] = new edge(); 
+        }
     }
 	
 	// A utility function to find set of an element i 

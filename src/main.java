@@ -6,6 +6,14 @@ import java.util.Scanner;
 
 public class main {
 
+	public static String cleanInput(String input) {
+		int counter = 0;
+		while(input.charAt(counter) == ' ') {
+			counter++;
+		}
+		return input.substring(counter);
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		List<int[]> cityList = new ArrayList<int[]>();
@@ -13,11 +21,14 @@ public class main {
 		int V = 0;  // Number of vertices in graph 
 	    int E = 0;  // Number of edges in graph 
 		
+	    
 		// Read input file line by line by using scanner
 		try {
-			Scanner scanner = new Scanner(new File("./inputs/example-input-3.txt"));
+			Scanner scanner = new Scanner(new File("./inputs/example-input-2.txt"));
 			while (scanner.hasNextLine()) {
-				String[] arr = scanner.nextLine().split(" ");
+				// Clean white spaces
+				String cleanResult = cleanInput(scanner.nextLine());
+				String[] arr = cleanResult.split("\\s+");
 				// Adding to linked list
 				cityList.add(new int[] {Integer.parseInt(arr[0]), Integer.parseInt(arr[1]), Integer.parseInt(arr[2])});
 				// Adding to graph
@@ -28,7 +39,7 @@ public class main {
 			e.printStackTrace();
 		}
 		
-		E = V*V;
+		E = (V*V)-V;
 	    graph graph = new graph(V, E); 
 
 	    int edgeCounter = 0;
@@ -50,7 +61,6 @@ public class main {
 		}
 	    
 	    System.out.println(edgeCounter);
-	    
 	 
 	    graph.edge[1].src = 0; 
 	    graph.edge[1].dest = 2; 
