@@ -39,7 +39,7 @@ public class main {
 		}
 		
 		E = (V*V)-V;
-	    graph graph = new graph(V, E); 
+	    graph graph = new graph(V, E);  
 
 	    int edgeCounter = 0;
 	    int distance = 0;
