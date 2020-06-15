@@ -24,7 +24,7 @@ public class main {
 	    
 		// Read input file line by line by using scanner
 		try {
-			Scanner scanner = new Scanner(new File("./inputs/example-input-2.txt"));
+			Scanner scanner = new Scanner(new File("./inputs/example-input-1.txt"));
 			while (scanner.hasNextLine()) {
 				// Clean white spaces
 				String cleanResult = cleanInput(scanner.nextLine());
@@ -63,6 +63,13 @@ public class main {
 	  
         graph.KruskalMST(); 
 	    System.out.println();
+	    
+	    graph g1 = new graph(V); 
+	    edge mst[] = graph.mst;
+	    for(int i=0; i<mst.length; i++) {
+	    	g1.addEdge(mst[i].src, mst[i].dest);
+	    }
+        g1.printEulerTour(); 
 	}
 
 }
