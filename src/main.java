@@ -24,7 +24,7 @@ public class main {
 	    
 		// Read input file line by line by using scanner
 		try {
-			Scanner scanner = new Scanner(new File("./inputs/example-input-1.txt"));
+			Scanner scanner = new Scanner(new File("./inputs/example-input-2.txt"));
 			while (scanner.hasNextLine()) {
 				// Clean white spaces
 				String cleanResult = cleanInput(scanner.nextLine());

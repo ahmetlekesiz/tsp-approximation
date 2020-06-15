@@ -108,8 +108,27 @@ public class graph {
         // the built MST 
         System.out.println("Following are the edges in " +  
                                      "the constructed MST"); 
-        for (i = 0; i < e; ++i) 
-            System.out.println(result[i].src+" -- " +  
-                   result[i].dest+" == " + result[i].weight); 
+        
+        int[] neighbourCounterOnMST = new int[V];
+        
+        for (i = 0; i < e; ++i) {
+        	System.out.println(result[i].src+" -- " +  
+                    result[i].dest+" == " + result[i].weight);
+        	
+        	int src = result[i].src;
+            int dest = result[i].dest;
+            neighbourCounterOnMST[src]++;
+            neighbourCounterOnMST[dest]++;
+            // 
+        }
+        
+        int countForOddDegree = 0;
+        
+        for(int i1 = 0; i1<V; i1++) {
+        	if(neighbourCounterOnMST[i1] % 2 == 1) countForOddDegree++;
+        }
+        
+        System.out.println(countForOddDegree);
+        
     } 
 }
