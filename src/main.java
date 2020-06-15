@@ -89,13 +89,13 @@ public class main {
 	  
         graph.KruskalMST(); 
 	    System.out.println();
-	    
-	    graph g1 = new graph(V); 
+	    graph.findAndAddPerfectMatches(graph.mst,cityList);
+	   /* graph g1 = new graph(V); 
 	    edge mst[] = graph.mst;
 	    for(int i=0; i<mst.length; i++) {
 	    	g1.addEdge(mst[i].src, mst[i].dest);
 	    }
-        g1.printEulerTour(); 
+        g1.printEulerTour(); */
 	}
 
 }
