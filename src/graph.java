@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class graph {
 	
@@ -235,18 +236,18 @@ public class graph {
         System.out.println("Following are the edges in " +  
                                      "the constructed MST"); 
         
-        int[] neighbourCounterOnMST = new int[V];
+       //int[] neighbourCounterOnMST = new int[V];
         
         for (i = 0; i < e; ++i) {
         	System.out.println(result[i].src+" -- " +  
                     result[i].dest+" == " + result[i].weight);
         	
-        	int src = result[i].src;
+        	/*int src = result[i].src;
             int dest = result[i].dest;
             neighbourCounterOnMST[src]++;
-            neighbourCounterOnMST[dest]++;
-            // 
-        }
+            neighbourCounterOnMST[dest]++;*/
+             
+        }/*
         
         int countForOddDegree = 0;
         
@@ -254,7 +255,110 @@ public class graph {
         	if(neighbourCounterOnMST[i1] % 2 == 1) countForOddDegree++;
         }
         
-        System.out.println(countForOddDegree);
+        System.out.println(countForOddDegree);*/
         mst = result;
-    } 
+    }
+    
+    void findAndAddPerfectMatches(edge[] mst,List<int[]> citylist){
+    	int[] neighbourCounterOnMST = new int[V];
+    	
+    	for(int i = 0 ; i < mst.length ; i++) {
+    		int src = mst[i].src;
+            int dest = mst[i].dest;
+            neighbourCounterOnMST[src]++;
+            neighbourCounterOnMST[dest]++;
+    	}
+    	
+    	ArrayList<edge> newEdgesForOddVertexs = new ArrayList<edge>();
+    	List<int[]> oddDegreVertex = new ArrayList<int[]>();
+    	
+    	for(int i = 0 ; i < neighbourCounterOnMST.length ; i++) {
+    		if(neighbourCounterOnMST[i] % 2 == 1) {
+    			oddDegreVertex.add(citylist.get(i));
+    		}
+    	}
+    	findMatchesWithNearestNeighbour(oddDegreVertex,newEdgesForOddVertexs);
+    	
+    	//merging new edges into mst so all nodes have even number edge now
+    	edge[] newEdges = newEdgesForOddVertexs.toArray(new edge[0]);
+    	int fal = mst.length-1;        //determines length of firstArray  
+    	int sal = newEdges.length;   //determines length of secondArray  
+    	edge[] result = new edge[fal + sal];  //resultant array of size first array and second array  
+    	System.arraycopy(mst, 0, result, 0, fal);  
+    	System.arraycopy(newEdges, 0, result, fal, sal);  
+    	System.out.println("Following are the edges within new edgest into " +  
+                "the constructed MST"); 
+
+    	for (int i = 0; i < result.length; ++i)
+    			System.out.println(result[i].src+" -- " +  
+    			result[i].dest+" == " + result[i].weight);
+    	//checking is there any odd edge vertex
+    	int[] neighbourCounterOnMST2 = new int[V];
+        
+        for (int i = 0; i < fal+sal; ++i) {
+        	System.out.println(result[i].src+" -- " +  
+                    result[i].dest+" == " + result[i].weight);
+        	
+        	int src = result[i].src;
+            int dest = result[i].dest;
+            neighbourCounterOnMST2[src]++;
+            neighbourCounterOnMST2[dest]++;
+             
+        }
+        
+        int countForOddDegree = 0;
+        
+        for(int i1 = 0; i1<V; i1++) {
+        	if(neighbourCounterOnMST2[i1] % 2 == 1) countForOddDegree++;
+        }
+        
+        System.out.println(countForOddDegree);//prints zero so its ok
+    }
+
+	void findMatchesWithNearestNeighbour(List<int[]> oddDegreVertex, ArrayList<edge> newEdgesForOddVertexs) {
+		// TODO Auto-generated method stub
+		int distance=0,min=Integer.MAX_VALUE,nextcityIndex=0,indexForRemove=0;
+		edge tempEdge;
+		
+		int[] temp,temp2;
+		for(int i=0 ;  i < oddDegreVertex.size() ;i=nextcityIndex) {
+			
+			temp=oddDegreVertex.get(i);
+			
+			oddDegreVertex.remove(i);
+			
+			for (int k = 0; k < oddDegreVertex.size(); k++) {
+				temp2 = oddDegreVertex.get(k);
+				
+				distance = (int) Math.round(Math.sqrt(Math.pow(temp[1] - temp2[1], 2) + Math.pow(temp[2] - temp2[2], 2)));
+				
+				if(distance<min ) {
+					min=distance;
+					nextcityIndex=0;
+					indexForRemove=k;
+				}
+			}
+			
+			temp2=oddDegreVertex.get(indexForRemove);
+			tempEdge = new edge();
+			tempEdge.src = temp[0];
+			tempEdge.dest = temp2[0];
+			tempEdge.weight = min;
+			newEdgesForOddVertexs.add(tempEdge);
+			
+			min=Integer.MAX_VALUE;
+			oddDegreVertex.remove(indexForRemove);
+			
+			if(oddDegreVertex.size()==2){
+				tempEdge = new edge();
+				tempEdge.src = oddDegreVertex.get(0)[0];
+				tempEdge.dest = oddDegreVertex.get(1)[0];
+				tempEdge.weight = (int) Math.round(Math.sqrt(Math.pow(oddDegreVertex.get(0)[1] - oddDegreVertex.get(1)[1], 2) + Math.pow(oddDegreVertex.get(0)[2] - oddDegreVertex.get(1)[2], 2)));
+				newEdgesForOddVertexs.add(tempEdge);
+				break;
+			}
+
+		}
+		
+	}
 }
