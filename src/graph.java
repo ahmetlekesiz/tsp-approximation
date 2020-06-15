@@ -278,8 +278,10 @@ public class graph {
     		}
     	}
     	findMatchesWithNearestNeighbour(oddDegreVertex,newEdgesForOddVertexs);
+    	
+    	//merging new edges into mst so all nodes have even number edge now
     	edge[] newEdges = newEdgesForOddVertexs.toArray(new edge[0]);
-    	int fal = mst.length;        //determines length of firstArray  
+    	int fal = mst.length-1;        //determines length of firstArray  
     	int sal = newEdges.length;   //determines length of secondArray  
     	edge[] result = new edge[fal + sal];  //resultant array of size first array and second array  
     	System.arraycopy(mst, 0, result, 0, fal);  
@@ -290,8 +292,27 @@ public class graph {
     	for (int i = 0; i < result.length; ++i)
     			System.out.println(result[i].src+" -- " +  
     			result[i].dest+" == " + result[i].weight);
-    	
-    	
+    	//checking is there any odd edge vertex
+    	int[] neighbourCounterOnMST2 = new int[V];
+        
+        for (int i = 0; i < fal+sal; ++i) {
+        	System.out.println(result[i].src+" -- " +  
+                    result[i].dest+" == " + result[i].weight);
+        	
+        	int src = result[i].src;
+            int dest = result[i].dest;
+            neighbourCounterOnMST2[src]++;
+            neighbourCounterOnMST2[dest]++;
+             
+        }
+        
+        int countForOddDegree = 0;
+        
+        for(int i1 = 0; i1<V; i1++) {
+        	if(neighbourCounterOnMST2[i1] % 2 == 1) countForOddDegree++;
+        }
+        
+        System.out.println(countForOddDegree);//prints zero so its ok
     }
 
 	void findMatchesWithNearestNeighbour(List<int[]> oddDegreVertex, ArrayList<edge> newEdgesForOddVertexs) {
