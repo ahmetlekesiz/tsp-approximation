@@ -8,11 +8,13 @@ public class graph {
 		int parent, rank; 
     }; 
 	
-    int V, E;    // V-> no. of vertices & E->no.of edges 
+    static int V, E;    // V-> no. of vertices & E->no.of edges 
 	edge edge[]; // collection of all edges 
-	edge mst[];
-	 private int vertices; // No. of vertices 
-	 private ArrayList<Integer>[] adj; // adjacency list 
+	edge perfectMatchResult[];
+	edge kruskalResult[];
+	private int vertices; // No. of vertices 
+	private ArrayList<Integer>[] adj; // adjacency list
+	ArrayList<Integer> euclidianCircuit = new ArrayList<Integer>();
 	
 	graph(int v, int e) 
     { 
@@ -74,7 +76,7 @@ public class graph {
 	            } 
 	        } 
 	          
-	        // Print tour starting from oddv 
+	        // Print tour starting from odd v 
 	        printEulerUtil(u); 
 	        System.out.println(); 
 	    } 
@@ -90,7 +92,8 @@ public class graph {
 	            if (isValidNextEdge(u, v))  
 	            { 
 	                System.out.print(u + "-" + v + " "); 
-	                  
+	                euclidianCircuit.add(u);
+	                euclidianCircuit.add(v);
 	                // This edge is used so remove it now 
 	                removeEdge(u, v);  
 	                printEulerUtil(v); 
@@ -98,6 +101,20 @@ public class graph {
 	        } 
 	    } 
 	  
+	    public ArrayList<Integer> clearRepeatedCities(ArrayList<Integer> cities) {
+	    	// Find exist cities
+	    	int[] citiesArray = new int[V];
+	    	ArrayList<Integer> resultCircuit = new ArrayList<Integer>();
+	    	for(int i=0; i<cities.size(); i++) {
+	    		citiesArray[cities.get(i)]++;
+	    		if(citiesArray[cities.get(i)] == 1) {
+	    			resultCircuit.add(cities.get(i));
+	    		}
+	    	}
+	    	resultCircuit.add(resultCircuit.get(0));
+	    	return resultCircuit;
+	    }
+	    
 	    // The function to check if edge u-v can be 
 	    // considered as next edge in Euler Tout 
 	    private boolean isValidNextEdge(Integer u, Integer v) 
@@ -256,7 +273,7 @@ public class graph {
         }
         
         System.out.println(countForOddDegree);*/
-        mst = result;
+        kruskalResult = result;
     }
     
     void findAndAddPerfectMatches(edge[] mst,List<int[]> citylist){
@@ -305,13 +322,12 @@ public class graph {
             neighbourCounterOnMST2[dest]++;
              
         }
-        
         int countForOddDegree = 0;
         
         for(int i1 = 0; i1<V; i1++) {
         	if(neighbourCounterOnMST2[i1] % 2 == 1) countForOddDegree++;
         }
-        
+        this.perfectMatchResult = result;
         System.out.println(countForOddDegree);//prints zero so its ok
     }
 

@@ -58,44 +58,20 @@ public class main {
 		    	}
 		    }
 		}
-	    /*
-	     * int distance=0,min=Integer.MAX_VALUE,nextcityIndex=0,totalDistance=0,pathIndex=0;
-		int[] path= new int[V];
-		int[] starting_city=cityList.get(0);
-		int[] temp;
-		for(int i=nextcityIndex; i<V;i=nextcityIndex) {
-			temp=cityList.get(i);
-			cityList.remove(i);
-			for (int k = 0; k < cityList.size(); k++) {
-				distance = (int) Math.round(Math.sqrt(Math.pow(temp[1] - cityList.get(k)[1], 2) + Math.pow(temp[2] - cityList.get(k)[2], 2)));
-				if(distance<min ) {
-					min=distance;
-					nextcityIndex=k;
-				}
-			}
-			totalDistance += min;
-			min=Integer.MAX_VALUE;
-			path[pathIndex]=temp[0];
-			pathIndex++;
-			if(cityList.size()==1){
-				path[pathIndex]=cityList.get(0)[0];
-				totalDistance +=(int) Math.round(Math.sqrt(Math.pow(cityList.get(0)[1] - starting_city[1], 2) + Math.pow(cityList.get(0)[2] - starting_city[2], 2)));
-				break;
-			}
 
-		}
-	     */
 	    System.out.println(edgeCounter);
 	  
         graph.KruskalMST(); 
 	    System.out.println();
-	    graph.findAndAddPerfectMatches(graph.mst,cityList);
-	   /* graph g1 = new graph(V); 
-	    edge mst[] = graph.mst;
+	    graph.findAndAddPerfectMatches(graph.kruskalResult,cityList);
+	    graph g1 = new graph(V); 
+	    edge mst[] = graph.perfectMatchResult;
 	    for(int i=0; i<mst.length; i++) {
 	    	g1.addEdge(mst[i].src, mst[i].dest);
 	    }
-        g1.printEulerTour(); */
+        g1.printEulerTour();
+        ArrayList<Integer> resultCircuit = g1.clearRepeatedCities(g1.euclidianCircuit);
+        System.out.println("");
 	}
 
 }
