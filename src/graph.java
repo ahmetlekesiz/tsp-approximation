@@ -9,9 +9,9 @@ public class graph {
     }; 
 	
     static int V, E;    // V-> no. of vertices & E->no.of edges 
-	edge edge[]; // collection of all edges 
-	edge perfectMatchResult[];
-	edge kruskalResult[];
+	static edge edge[]; // collection of all edges 
+	static edge perfectMatchResult[];
+	static edge kruskalResult[];
 	private int vertices; // No. of vertices 
 	private ArrayList<Integer>[] adj; // adjacency list
 	ArrayList<Integer> euclidianCircuit = new ArrayList<Integer>();

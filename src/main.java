@@ -14,13 +14,22 @@ public class main {
 		return input.substring(counter);
 	}
 	
+	public static int calculateTotalDistance(ArrayList<Integer> resultCircuit, int distanceMatrix[][]) {
+		int sum = 0;
+		int counter = 0;
+		while(counter < resultCircuit.size()-1) {
+			sum += distanceMatrix[resultCircuit.get(counter)][resultCircuit.get(counter+1)];
+			counter += 2;
+		}
+		return sum;
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		List<int[]> cityList = new ArrayList<int[]>();
 	
 		int V = 0;  // Number of vertices in graph 
 	    int E = 0;  // Number of edges in graph 
-		
 	    
 		// Read input file line by line by using scanner
 		try {
@@ -40,6 +49,7 @@ public class main {
 		
 		E = (V*V)-V;
 	    graph graph = new graph(V, E);  
+		int distanceMatrix[][] = new int[V][V];
 
 	    int edgeCounter = 0;
 	    int distance = 0;
@@ -49,7 +59,9 @@ public class main {
 		    	if(i!=k) {
 			    	// Distance between i and k
 			    	distance = (int)Math.sqrt(Math.pow(cityList.get(i)[1]-cityList.get(k)[1], 2)+Math.pow(cityList.get(i)[2]-cityList.get(k)[2], 2));
-				    // Add edge to graph
+				    // Add to the 2d distance matrix
+			    	distanceMatrix[i][k] = distance;
+			    	// Add edge to graph
 			    	graph.edge[edgeCounter].src = i; 
 					graph.edge[edgeCounter].dest = k; 
 					graph.edge[edgeCounter].weight = distance; 
@@ -71,6 +83,11 @@ public class main {
 	    }
         g1.printEulerTour();
         ArrayList<Integer> resultCircuit = g1.clearRepeatedCities(g1.euclidianCircuit);
+        int result = calculateTotalDistance(resultCircuit, distanceMatrix);
+        System.out.println("********");
+        for(int k=0; k<resultCircuit.size(); k++) {
+        	System.out.println(resultCircuit.get(k));
+        }
         System.out.println("");
 	}
 
