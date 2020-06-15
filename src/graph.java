@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class graph {
 	
@@ -13,7 +11,7 @@ public class graph {
 	static edge perfectMatchResult[];
 	static edge kruskalResult[];
 	private int vertices; // No. of vertices 
-	private ArrayList<Integer>[] adj; // adjacency list
+	private LinkedList<Integer>[] adj; // adjacency list
 	ArrayList<Integer> euclidianCircuit = new ArrayList<Integer>();
 	
 	graph(int v, int e) 
@@ -38,10 +36,10 @@ public class graph {
 	
 	 private void initGraph() 
 	    { 
-	        adj = new ArrayList[vertices]; 
+	        adj = new LinkedList[vertices];
 	        for (int i = 0; i < vertices; i++)  
 	        { 
-	            adj[i] = new ArrayList<>(); 
+	            adj[i] = new LinkedList<Integer>();
 	        } 
 	    } 
 
@@ -78,7 +76,7 @@ public class graph {
 	          
 	        // Print tour starting from odd v 
 	        printEulerUtil(u); 
-	        System.out.println(); 
+	        System.out.println("saas");
 	    } 
 	  
 	    // Print Euler tour starting from vertex u 
@@ -91,7 +89,7 @@ public class graph {
 	            // If edge u-v is a valid next edge 
 	            if (isValidNextEdge(u, v))  
 	            { 
-	                System.out.print(u + "-" + v + " "); 
+	                //System.out.print(u + "-" + v + " ");
 	                euclidianCircuit.add(u);
 	                euclidianCircuit.add(v);
 	                // This edge is used so remove it now 
@@ -148,21 +146,63 @@ public class graph {
 	  
 	    // A DFS based function to count reachable 
 	    // vertices from v 
-	    private int dfsCount(Integer v, boolean[] isVisited) 
-	    { 
-	        // Mark the current node as visited 
+	     int dfsCount(Integer s, boolean[] isVisited)
+	    {
+	    	int count=0;
+			// Initially mark all vertices as not visited
+
+
+			// Create a stack for DFS
+			Stack<Integer> stack = new Stack<>();
+
+			// Push the current source node
+			stack.push(s);
+
+			while(stack.empty() == false)
+			{
+				// Pop a vertex from stack and print it
+				s = stack.peek();
+				stack.pop();
+
+				// Stack may contain same vertex twice. So
+				// we need to print the popped item only
+				// if it is not visited.
+				if(isVisited[s] == false)
+				{
+					//System.out.print(s + " ");
+					isVisited[s]= true;
+					count++;
+				}
+
+				// Get all adjacent vertices of the popped vertex s
+				// If a adjacent has not been visited, then push it
+				// to the stack.
+				Iterator<Integer> itr = adj[s].iterator();
+
+				while (itr.hasNext())
+				{
+					int v = itr.next();
+					if(!isVisited[v]) {
+						stack.push(v);
+					}
+				}
+
+			}
+			return count;
+		}
+	       /* // Mark the current node as visited
 	        isVisited[v] = true; 
 	        int count = 1; 
 	        // Recur for all vertices adjacent to this vertex 
-	        for (int adj : adj[v]) 
-	        { 
-	            if (!isVisited[adj]) 
+	        for (int adj : adj[v])
+	        {
+	            if (!isVisited[adj])
 	            { 
 	                count = count + dfsCount(adj, isVisited); 
 	            } 
 	        } 
 	        return count; 
-	    } 
+	    } */
 	
 	// A utility function to find set of an element i 
     // (uses path compression technique) 
@@ -250,29 +290,15 @@ public class graph {
   
         // print the contents of result[] to display 
         // the built MST 
-        System.out.println("Following are the edges in " +  
+        /*System.out.println("Following are the edges in " +
                                      "the constructed MST"); 
+       
         
-       //int[] neighbourCounterOnMST = new int[V];
-        
-        for (i = 0; i < e; ++i) {
+        for (i = 0; i < e; ++i) 
         	System.out.println(result[i].src+" -- " +  
                     result[i].dest+" == " + result[i].weight);
         	
-        	/*int src = result[i].src;
-            int dest = result[i].dest;
-            neighbourCounterOnMST[src]++;
-            neighbourCounterOnMST[dest]++;*/
-             
-        }/*
-        
-        int countForOddDegree = 0;
-        
-        for(int i1 = 0; i1<V; i1++) {
-        	if(neighbourCounterOnMST[i1] % 2 == 1) countForOddDegree++;
-        }
-        
-        System.out.println(countForOddDegree);*/
+       */
         kruskalResult = result;
     }
     
@@ -306,15 +332,15 @@ public class graph {
     	System.out.println("Following are the edges within new edgest into " +  
                 "the constructed MST"); 
 
-    	for (int i = 0; i < result.length; ++i)
+    	/*for (int i = 0; i < result.length; ++i)
     			System.out.println(result[i].src+" -- " +  
-    			result[i].dest+" == " + result[i].weight);
+    			result[i].dest+" == " + result[i].weight);*/
     	//checking is there any odd edge vertex
     	int[] neighbourCounterOnMST2 = new int[V];
         
         for (int i = 0; i < fal+sal; ++i) {
-        	System.out.println(result[i].src+" -- " +  
-                    result[i].dest+" == " + result[i].weight);
+        	/*System.out.println(result[i].src+" -- " +
+                    result[i].dest+" == " + result[i].weight);*/
         	
         	int src = result[i].src;
             int dest = result[i].dest;
@@ -327,7 +353,7 @@ public class graph {
         for(int i1 = 0; i1<V; i1++) {
         	if(neighbourCounterOnMST2[i1] % 2 == 1) countForOddDegree++;
         }
-        this.perfectMatchResult = result;
+        perfectMatchResult = result;
         System.out.println(countForOddDegree);//prints zero so its ok
     }
 
