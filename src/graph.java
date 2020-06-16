@@ -19,10 +19,10 @@ public class graph {
         V = v; 
         E = e; 
         
-        edge = new edge[E]; 
+        /*edge = new edge[E];
         for (int i=0; i<e; ++i) {
             edge[i] = new edge(); 
-        }
+        }*/
     }
 	
 	graph(int numOfVertices) 
@@ -290,22 +290,22 @@ public class graph {
   
         // print the contents of result[] to display 
         // the built MST 
-        /*System.out.println("Following are the edges in " +
-                                     "the constructed MST"); 
+        System.out.println("Following are the edges in " +
+                                     "the constructed MST");
        
         
         for (i = 0; i < e; ++i) 
         	System.out.println(result[i].src+" -- " +  
                     result[i].dest+" == " + result[i].weight);
         	
-       */
+
         kruskalResult = result;
     }
     
     void findAndAddPerfectMatches(edge[] mst,List<int[]> citylist){
     	int[] neighbourCounterOnMST = new int[V];
     	
-    	for(int i = 0 ; i < mst.length ; i++) {
+    	for(int i = 1 ; i < mst.length ; i++) {
     		int src = mst[i].src;
             int dest = mst[i].dest;
             neighbourCounterOnMST[src]++;
@@ -329,8 +329,8 @@ public class graph {
     	edge[] result = new edge[fal + sal];  //resultant array of size first array and second array  
     	System.arraycopy(mst, 0, result, 0, fal);  
     	System.arraycopy(newEdges, 0, result, fal, sal);  
-    	System.out.println("Following are the edges within new edgest into " +  
-                "the constructed MST"); 
+    	/*System.out.println("Following are the edges within new edgest into " +
+                "the constructed MST"); */
 
     	/*for (int i = 0; i < result.length; ++i)
     			System.out.println(result[i].src+" -- " +  
@@ -338,7 +338,7 @@ public class graph {
     	//checking is there any odd edge vertex
     	int[] neighbourCounterOnMST2 = new int[V];
         
-        for (int i = 0; i < fal+sal; ++i) {
+        for (int i = 1; i < fal+sal; ++i) {
         	/*System.out.println(result[i].src+" -- " +
                     result[i].dest+" == " + result[i].weight);*/
         	

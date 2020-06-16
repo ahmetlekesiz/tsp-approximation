@@ -29,7 +29,7 @@ public class main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		List<int[]> cityList = new ArrayList<int[]>();
-		String path="./inputs/",filename="test-input-1.txt";
+		String path="./inputs/",filename="test-input-3.txt";
 
 		int V = 0;  // Number of vertices in graph 
 	    int E = 0;  // Number of edges in graph 
@@ -64,9 +64,9 @@ public class main {
 				    // Add to the 2d distance matrix
 			    	distanceMatrix[i][k] = distance;
 			    	// Add edge to graph
-			    	graph.edge[edgeCounter].src = i; 
-					graph.edge[edgeCounter].dest = k; 
-					graph.edge[edgeCounter].weight = distance; 
+			    	//graph.edge[edgeCounter].src = i;
+					//graph.edge[edgeCounter].dest = k;
+					//graph.edge[edgeCounter].weight = distance;
 					// Increment edgeCounter for next edge
 					edgeCounter++;
 		    	}
@@ -75,12 +75,28 @@ public class main {
 
 	    System.out.println(edgeCounter);
 	  
-        graph.KruskalMST(); 
+        //graph.KruskalMST();
 	    System.out.println();
-	    graph.findAndAddPerfectMatches(graph.kruskalResult,cityList);
-	    graph g1 = new graph(V); 
+	      /* Let us create the following graph
+        2 3
+        (0)--(1)--(2)
+        | / \ |
+        6| 8/ \5 |7
+        | /     \ |
+        (3)-------(4)
+            9         */
+		MST t = new MST(V);
+
+
+		// Print the solution
+		//t.primMST(distanceMatrix);
+		edge [] primsResult = t.primMST(distanceMatrix);
+	    graph.findAndAddPerfectMatches(primsResult,cityList);
+	    graph g1 = new graph(V);
+
 	    edge mst[] = graph.perfectMatchResult;
-	    for(int i=0; i<mst.length; i++) {
+
+	    for(int i=1; i<mst.length; i++) {
 	    	g1.addEdge(mst[i].src, mst[i].dest);
 	    }
         g1.printEulerTour();
