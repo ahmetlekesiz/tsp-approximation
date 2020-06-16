@@ -36,11 +36,7 @@ public class main {
 	    
 		// Read input file line by line by using scanner
 		try {
-<<<<<<< HEAD
-			Scanner scanner = new Scanner(new File("./inputs/example-input-1.txt"));
-=======
 			Scanner scanner = new Scanner(new File(path+filename));
->>>>>>> ec1a78e43fa010ea80b0e51f46c15d3a44ffdf55
 			while (scanner.hasNextLine()) {
 				// Clean white spaces
 				String cleanResult = cleanInput(scanner.nextLine());
