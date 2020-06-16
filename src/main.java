@@ -1,3 +1,4 @@
+import java.io.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -17,9 +18,10 @@ public class main {
 	public static int calculateTotalDistance(ArrayList<Integer> resultCircuit, int distanceMatrix[][]) {
 		int sum = 0;
 		int counter = 0;
+
 		while(counter < resultCircuit.size()-1) {
 			sum += distanceMatrix[resultCircuit.get(counter)][resultCircuit.get(counter+1)];
-			counter += 2;
+			counter++;
 		}
 		return sum;
 	}
@@ -27,13 +29,18 @@ public class main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		List<int[]> cityList = new ArrayList<int[]>();
-	
+		String path="./inputs/",filename="test-input-1.txt";
+
 		int V = 0;  // Number of vertices in graph 
 	    int E = 0;  // Number of edges in graph 
 	    
 		// Read input file line by line by using scanner
 		try {
+<<<<<<< HEAD
 			Scanner scanner = new Scanner(new File("./inputs/example-input-1.txt"));
+=======
+			Scanner scanner = new Scanner(new File(path+filename));
+>>>>>>> ec1a78e43fa010ea80b0e51f46c15d3a44ffdf55
 			while (scanner.hasNextLine()) {
 				// Clean white spaces
 				String cleanResult = cleanInput(scanner.nextLine());
@@ -46,7 +53,6 @@ public class main {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
 		E = (V*V)-V;
 	    graph graph = new graph(V, E);  
 		int distanceMatrix[][] = new int[V][V];
@@ -58,7 +64,7 @@ public class main {
 		    	// Create and edge if the vertices are different
 		    	if(i!=k) {
 			    	// Distance between i and k
-			    	distance = (int)Math.sqrt(Math.pow(cityList.get(i)[1]-cityList.get(k)[1], 2)+Math.pow(cityList.get(i)[2]-cityList.get(k)[2], 2));
+			    	distance = (int)Math.round(Math.sqrt(Math.pow(cityList.get(i)[1]-cityList.get(k)[1], 2)+Math.pow(cityList.get(i)[2]-cityList.get(k)[2], 2)));
 				    // Add to the 2d distance matrix
 			    	distanceMatrix[i][k] = distance;
 			    	// Add edge to graph
@@ -83,11 +89,23 @@ public class main {
 	    }
         g1.printEulerTour();
         ArrayList<Integer> resultCircuit = g1.clearRepeatedCities(g1.euclidianCircuit);
-        int result = calculateTotalDistance(resultCircuit, distanceMatrix);
-        System.out.println("********");
-        for(int k=0; k<resultCircuit.size(); k++) {
-        	System.out.println(resultCircuit.get(k));
-        }
+        int totalDistance = calculateTotalDistance(resultCircuit, distanceMatrix);
+		FileWriter fw = null;
+		BufferedWriter bw=null;
+		try {
+			fw = new FileWriter(new File(path+"output-of-"+filename));
+			bw = new BufferedWriter(fw);
+			bw.write(totalDistance+"\n");
+			for(int k=0; k<resultCircuit.size()-1; k++) {
+				bw.write(resultCircuit.get(k)+"\n");
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+
         System.out.println("");
 	}
 
