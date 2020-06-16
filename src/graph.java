@@ -6,53 +6,39 @@ public class graph {
 		int parent, rank; 
     }; 
 	
-    static int V, E;    // V-> no. of vertices & E->no.of edges 
-	static edge edge[]; // collection of all edges 
-	static edge perfectMatchResult[];
-	static edge kruskalResult[];
-	private int vertices; // No. of vertices 
+	int V, E;    // V-> no. of vertices & E->no.of edges
 	private LinkedList<Integer>[] adj; // adjacency list
 	ArrayList<Integer> euclidianCircuit = new ArrayList<Integer>();
 	
-	graph(int v, int e) 
-    { 
-        V = v; 
-        E = e; 
-        
-        /*edge = new edge[E];
-        for (int i=0; i<e; ++i) {
-            edge[i] = new edge(); 
-        }*/
+	 graph(int v, int e) {
+        this.V = v;
+        this.E = e;
+
+    }
+	 graph(int numOfVertices) {
+        // initialise vertex count
+        this.V = numOfVertices;
+
+        // initialise adjacency list
+        initGraph();
     }
 	
-	graph(int numOfVertices) 
-    { 
-        // initialise vertex count 
-        this.vertices = numOfVertices; 
-  
-        // initialise adjacency list 
-        initGraph(); 
-    } 
-	
-	 private void initGraph() 
-	    { 
-	        adj = new LinkedList[vertices];
-	        for (int i = 0; i < vertices; i++)  
+	 private void initGraph() {
+	        adj = new LinkedList[V];
+	        for (int i = 0; i < V; i++)
 	        { 
 	            adj[i] = new LinkedList<Integer>();
 	        } 
 	    } 
 
 	 // add edge u-v 
-	    void addEdge(Integer u, Integer v) 
-	    { 
+	 void addEdge(Integer u, Integer v) {
 	        adj[u].add(v); 
 	        adj[v].add(u); 
 	    } 
 	  
 	    // This function removes edge u-v from graph. 
-	    private void removeEdge(Integer u, Integer v) 
-	    { 
+	 private void removeEdge(Integer u, Integer v) {
 	        adj[u].remove(v); 
 	        adj[v].remove(u); 
 	    } 
@@ -61,27 +47,23 @@ public class graph {
 	       It first finds an odd degree vertex (if there  
 	       is any) and then calls printEulerUtil() to 
 	       print the path */
-	    void printEulerTour() 
-	    { 
+	 void createEulerCircuit() {
 	        // Find a vertex with odd degree 
 	        Integer u = 0; 
-	        for (int i = 0; i < vertices; i++) 
+	        for (int i = 0; i < V; i++)
 	        { 
 	            if (adj[i].size() % 2 == 1) 
 	            { 
 	                u = i; 
 	                break; 
 	            } 
-	        } 
-	          
+	        }
 	        // Print tour starting from odd v 
-	        printEulerUtil(u); 
-	        System.out.println("saas");
+	        printEulerUtil(u);
 	    } 
 	  
 	    // Print Euler tour starting from vertex u 
-	    private void printEulerUtil(Integer u) 
-	    { 
+	 private void printEulerUtil(Integer u) {
 	        // Recur for all the vertices adjacent to this vertex 
 	        for (int i = 0; i < adj[u].size(); i++) 
 	        { 
@@ -99,7 +81,7 @@ public class graph {
 	        } 
 	    } 
 	  
-	    public ArrayList<Integer> clearRepeatedCities(ArrayList<Integer> cities) {
+	 public ArrayList<Integer> clearRepeatedCities(ArrayList<Integer> cities) {
 	    	// Find exist cities
 	    	int[] citiesArray = new int[V];
 	    	ArrayList<Integer> resultCircuit = new ArrayList<Integer>();
@@ -115,8 +97,7 @@ public class graph {
 	    
 	    // The function to check if edge u-v can be 
 	    // considered as next edge in Euler Tout 
-	    private boolean isValidNextEdge(Integer u, Integer v) 
-	    { 
+	 private boolean isValidNextEdge(Integer u, Integer v) {
 	        // The edge u-v is valid in one of the 
 	        // following two cases: 
 	  
@@ -130,13 +111,13 @@ public class graph {
 	        // u-v is not a bridge Do following steps  
 	        // to check if u-v is a bridge 
 	        // 2.a) count of vertices reachable from u 
-	        boolean[] isVisited = new boolean[this.vertices]; 
+	        boolean[] isVisited = new boolean[this.V];
 	        int count1 = dfsCount(u, isVisited); 
 	  
 	        // 2.b) Remove edge (u, v) and after removing 
 	        //  the edge, count vertices reachable from u 
 	        removeEdge(u, v); 
-	        isVisited = new boolean[this.vertices]; 
+	        isVisited = new boolean[this.V];
 	        int count2 = dfsCount(u, isVisited); 
 	  
 	        // 2.c) Add the edge back to the graph 
@@ -146,11 +127,9 @@ public class graph {
 	  
 	    // A DFS based function to count reachable 
 	    // vertices from v 
-	     int dfsCount(Integer s, boolean[] isVisited)
-	    {
+	 int dfsCount(Integer s, boolean[] isVisited) {
 	    	int count=0;
 			// Initially mark all vertices as not visited
-
 
 			// Create a stack for DFS
 			Stack<Integer> stack = new Stack<>();
@@ -186,123 +165,11 @@ public class graph {
 						stack.push(v);
 					}
 				}
-
 			}
 			return count;
 		}
-	       /* // Mark the current node as visited
-	        isVisited[v] = true; 
-	        int count = 1; 
-	        // Recur for all vertices adjacent to this vertex 
-	        for (int adj : adj[v])
-	        {
-	            if (!isVisited[adj])
-	            { 
-	                count = count + dfsCount(adj, isVisited); 
-	            } 
-	        } 
-	        return count; 
-	    } */
-	
-	// A utility function to find set of an element i 
-    // (uses path compression technique) 
-    int find(subset subsets[], int i) 
-    { 
-        // find root and make root as parent of i (path compression) 
-        if (subsets[i].parent != i) 
-            subsets[i].parent = find(subsets, subsets[i].parent); 
-  
-        return subsets[i].parent; 
-    }
-    
-    // A function that does union of two sets of x and y 
-    // (uses union by rank) 
-    void Union(subset subsets[], int x, int y) 
-    { 
-        int xroot = find(subsets, x); 
-        int yroot = find(subsets, y); 
-  
-        // Attach smaller rank tree under root of high rank tree 
-        // (Union by Rank) 
-        if (subsets[xroot].rank < subsets[yroot].rank) 
-            subsets[xroot].parent = yroot; 
-        else if (subsets[xroot].rank > subsets[yroot].rank) 
-            subsets[yroot].parent = xroot; 
-  
-        // If ranks are same, then make one as root and increment 
-        // its rank by one 
-        else
-        { 
-            subsets[yroot].parent = xroot; 
-            subsets[xroot].rank++; 
-        } 
-    }
-    
- // The main function to construct MST using Kruskal's algorithm 
-    void KruskalMST() 
-    { 
-        edge result[] = new edge[V];  // This will store the resultant MST 
-        int e = 0;  // An index variable, used for result[] 
-        int i = 0;  // An index variable, used for sorted edges 
-        for (i=0; i<V; ++i) 
-            result[i] = new edge(); 
-  
-        // Step 1:  Sort all the edges in non-decreasing order of their 
-        // weight.  If we are not allowed to change the given graph, we 
-        // can create a copy of array of edges 
-        Arrays.sort(edge); 
-  
-        // Allocate memory for creating V ssubsets 
-        subset subsets[] = new subset[V]; 
-        for(i=0; i<V; ++i) 
-            subsets[i]=new subset(); 
-  
-        // Create V subsets with single elements 
-        for (int v = 0; v < V; ++v) 
-        { 
-            subsets[v].parent = v; 
-            subsets[v].rank = 0; 
-        } 
-  
-        i = 0;  // Index used to pick next edge 
-  
-        // Number of edges to be taken is equal to V-1 
-        while (e < V - 1) 
-        { 
-            // Step 2: Pick the smallest edge. And increment  
-            // the index for next iteration 
-            edge next_edge = new edge(); 
-            next_edge = edge[i++]; 
-  
-            int x = find(subsets, next_edge.src); 
-            int y = find(subsets, next_edge.dest); 
-  
-            // If including this edge does't cause cycle, 
-            // include it in result and increment the index  
-            // of result for next edge 
-            if (x != y) 
-            { 
-                result[e++] = next_edge; 
-                Union(subsets, x, y); 
-            } 
-            // Else discard the next_edge 
-        } 
-  
-        // print the contents of result[] to display 
-        // the built MST 
-        System.out.println("Following are the edges in " +
-                                     "the constructed MST");
-       
-        
-        for (i = 0; i < e; ++i) 
-        	System.out.println(result[i].src+" -- " +  
-                    result[i].dest+" == " + result[i].weight);
-        	
 
-        kruskalResult = result;
-    }
-    
-    void findAndAddPerfectMatches(edge[] mst,List<int[]> citylist){
+	edge[] findAndAddPerfectMatches(edge[] mst,List<int[]> citylist){
     	int[] neighbourCounterOnMST = new int[V];
     	
     	for(int i = 1 ; i < mst.length ; i++) {
@@ -328,33 +195,18 @@ public class graph {
     	int sal = newEdges.length;   //determines length of secondArray  
     	edge[] result = new edge[fal + sal];  //resultant array of size first array and second array  
     	System.arraycopy(mst, 0, result, 0, fal);  
-    	System.arraycopy(newEdges, 0, result, fal, sal);  
-    	/*System.out.println("Following are the edges within new edgest into " +
-                "the constructed MST"); */
+    	System.arraycopy(newEdges, 0, result, fal, sal);
 
-    	/*for (int i = 0; i < result.length; ++i)
-    			System.out.println(result[i].src+" -- " +  
-    			result[i].dest+" == " + result[i].weight);*/
-    	//checking is there any odd edge vertex
     	int[] neighbourCounterOnMST2 = new int[V];
         
         for (int i = 1; i < fal+sal; ++i) {
-        	/*System.out.println(result[i].src+" -- " +
-                    result[i].dest+" == " + result[i].weight);*/
-        	
         	int src = result[i].src;
             int dest = result[i].dest;
             neighbourCounterOnMST2[src]++;
             neighbourCounterOnMST2[dest]++;
              
         }
-        int countForOddDegree = 0;
-        
-        for(int i1 = 0; i1<V; i1++) {
-        	if(neighbourCounterOnMST2[i1] % 2 == 1) countForOddDegree++;
-        }
-        perfectMatchResult = result;
-        System.out.println(countForOddDegree);//prints zero so its ok
+        return result;
     }
 
 	void findMatchesWithNearestNeighbour(List<int[]> oddDegreVertex, ArrayList<edge> newEdgesForOddVertexs) {
@@ -402,5 +254,86 @@ public class graph {
 
 		}
 		
+	}
+
+	// A utility function to find the vertex with minimum key
+	// value, from the set of vertices not yet included in MST
+	int minKey(int key[], Boolean mstSet[])
+	{
+		// Initialize min value
+		int min = Integer.MAX_VALUE, min_index = -1;
+
+		for (int v = 0; v < V; v++)
+			if (mstSet[v] == false && key[v] < min) {
+				min = key[v];
+				min_index = v;
+			}
+
+		return min_index;
+	}
+
+	// A utility function to print the constructed MST stored in
+	// parent[]
+	edge[] printMST(int parent[], int graph[][])
+	{
+		edge[] mst = new edge[V];
+		for (int i = 1; i < V; i++) {
+			mst[i]=new edge();
+			mst[i].src=parent[i];
+			mst[i].dest=i;
+			mst[i].weight=graph[i][parent[i]];
+		}
+		return mst;
+	}
+
+	// Function to construct and print MST for a graph represented
+	// using adjacency matrix representation
+	edge[] primMST(int graph[][])
+	{
+		// Array to store constructed MST
+		int parent[] = new int[V];
+
+		// Key values used to pick minimum weight edge in cut
+		int key[] = new int[V];
+
+		// To represent set of vertices included in MST
+		Boolean mstSet[] = new Boolean[V];
+
+		// Initialize all keys as INFINITE
+		for (int i = 0; i < V; i++) {
+			key[i] = Integer.MAX_VALUE;
+			mstSet[i] = false;
+		}
+
+		// Always include first 1st vertex in MST.
+		key[0] = 0; // Make key 0 so that this vertex is
+		// picked as first vertex
+		parent[0] = -1; // First node is always root of MST
+
+		// The MST will have V vertices
+		for (int count = 0; count < V - 1; count++) {
+			// Pick thd minimum key vertex from the set of vertices
+			// not yet included in MST
+			int u = minKey(key, mstSet);
+
+			// Add the picked vertex to the MST Set
+			mstSet[u] = true;
+
+			// Update key value and parent index of the adjacent
+			// vertices of the picked vertex. Consider only those
+			// vertices which are not yet included in MST
+			for (int v = 0; v < V; v++)
+
+				// graph[u][v] is non zero only for adjacent vertices of m
+				// mstSet[v] is false for vertices not yet included in MST
+				// Update the key only if graph[u][v] is smaller than key[v]
+				if (graph[u][v] != 0 && mstSet[v] == false && graph[u][v] < key[v]) {
+					parent[v] = u;
+					key[v] = graph[u][v];
+				}
+		}
+
+		// print the constructed MST
+		return printMST(parent, graph);
 	}
 }
