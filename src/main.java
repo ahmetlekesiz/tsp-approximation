@@ -77,6 +77,7 @@ public class main {
 	  
         graph.KruskalMST(); 
 	    System.out.println();
+	    // 10 kez karıştırıp gönder, en kısa yolu çevir.
 	    graph.findAndAddPerfectMatches(graph.kruskalResult,cityList);
 	    graph g1 = new graph(V); 
 	    edge mst[] = graph.perfectMatchResult;
