@@ -61,7 +61,19 @@ public class main {
 	    //creating new graph for our cyclic mst
 	    graph g1 = new graph(V);
 
+<<<<<<< HEAD
+	    System.out.println(edgeCounter);
+	  
+        graph.KruskalMST(); 
+	    System.out.println();
+	    // 10 kez karıştırıp gönder, en kısa yolu çevir.
+	    graph.findAndAddPerfectMatches(graph.kruskalResult,cityList);
+	    graph g1 = new graph(V); 
+	    edge mst[] = graph.perfectMatchResult;
+	    for(int i=0; i<mst.length; i++) {
+=======
 	    for(int i=1; i<mst.length; i++) {
+>>>>>>> 23604ac1028879c2b4561a4653371ab9649fac55
 	    	g1.addEdge(mst[i].src, mst[i].dest);
 	    }
 
