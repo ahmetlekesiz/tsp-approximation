@@ -11,7 +11,7 @@ public class main {
 		// TODO Auto-generated method stub
 		List<int[]> cityList = new ArrayList<int[]>();
 		int distanceMatrix[][];
-		String path="./inputs/",filename="test-input-3.txt";
+		String path="./inputs/",filename="example-input-3.txt";
 
 		int V = 0;  // Number of vertices in graph 
 	    int E = 0;  // Number of edges in graph 
@@ -78,7 +78,7 @@ public class main {
         FileWriter fw = null;
 		BufferedWriter bw=null;
 		try {
-			fw = new FileWriter(new File(path+"output-of-"+filename));
+			fw = new FileWriter(new File("./outputs/"+filename.replace("input","output")));
 			bw = new BufferedWriter(fw);
 			bw.write(totalDistance+"\n");
 			for(int k=0; k<resultCircuit.size()-1; k++) {
