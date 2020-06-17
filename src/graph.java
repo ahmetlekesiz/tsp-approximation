@@ -1,21 +1,17 @@
 import java.util.*;
 
 public class graph {
-	
-	class subset { 
-		int parent, rank; 
-    }; 
-	
+
 	int V, E;    // V-> no. of vertices & E->no.of edges
 	private LinkedList<Integer>[] adj; // adjacency list
-	ArrayList<Integer> euclidianCircuit = new ArrayList<Integer>();
+	ArrayList<Integer> eulerianCircuit = new ArrayList<Integer>();
 	
-	 graph(int v, int e) {
+	graph(int v, int e) {
         this.V = v;
         this.E = e;
 
     }
-	 graph(int numOfVertices) {
+	graph(int numOfVertices) {
         // initialise vertex count
         this.V = numOfVertices;
 
@@ -23,7 +19,7 @@ public class graph {
         initGraph();
     }
 	
-	 private void initGraph() {
+	void initGraph() {
 	        adj = new LinkedList[V];
 	        for (int i = 0; i < V; i++)
 	        { 
@@ -32,22 +28,24 @@ public class graph {
 	    } 
 
 	 // add edge u-v 
-	 void addEdge(Integer u, Integer v) {
+	void addEdge(Integer u, Integer v) {
 	        adj[u].add(v); 
 	        adj[v].add(u); 
 	    } 
 	  
 	    // This function removes edge u-v from graph. 
-	 private void removeEdge(Integer u, Integer v) {
+	void removeEdge(Integer u, Integer v) {
 	        adj[u].remove(v); 
 	        adj[v].remove(u); 
-	    } 
+	    }
 
-	    /* The main function that print Eulerian Trail.  
+			//***Eulerian Cycle******
+
+	    /* The main function that print Eulerian Trail.
 	       It first finds an odd degree vertex (if there  
 	       is any) and then calls printEulerUtil() to 
 	       print the path */
-	 void createEulerCircuit() {
+	void createEulerCircuit() {
 	        // Find a vertex with odd degree 
 	        Integer u = 0; 
 	        for (int i = 0; i < V; i++)
@@ -59,11 +57,11 @@ public class graph {
 	            } 
 	        }
 	        // Print tour starting from odd v 
-	        printEulerUtil(u);
+	        eulerUtil(u);
 	    } 
 	  
 	    // Print Euler tour starting from vertex u 
-	 private void printEulerUtil(Integer u) {
+	void eulerUtil(Integer u) {
 	        // Recur for all the vertices adjacent to this vertex 
 	        for (int i = 0; i < adj[u].size(); i++) 
 	        { 
@@ -72,32 +70,18 @@ public class graph {
 	            if (isValidNextEdge(u, v))  
 	            { 
 	                //System.out.print(u + "-" + v + " ");
-	                euclidianCircuit.add(u);
-	                euclidianCircuit.add(v);
+	                eulerianCircuit.add(u);
+	                eulerianCircuit.add(v);
 	                // This edge is used so remove it now 
 	                removeEdge(u, v);  
-	                printEulerUtil(v); 
+	                eulerUtil(v);
 	            } 
 	        } 
-	    } 
-	  
-	 public ArrayList<Integer> clearRepeatedCities(ArrayList<Integer> cities) {
-	    	// Find exist cities
-	    	int[] citiesArray = new int[V];
-	    	ArrayList<Integer> resultCircuit = new ArrayList<Integer>();
-	    	for(int i=0; i<cities.size(); i++) {
-	    		citiesArray[cities.get(i)]++;
-	    		if(citiesArray[cities.get(i)] == 1) {
-	    			resultCircuit.add(cities.get(i));
-	    		}
-	    	}
-	    	resultCircuit.add(resultCircuit.get(0));
-	    	return resultCircuit;
 	    }
 	    
 	    // The function to check if edge u-v can be 
 	    // considered as next edge in Euler Tout 
-	 private boolean isValidNextEdge(Integer u, Integer v) {
+	boolean isValidNextEdge(Integer u, Integer v) {
 	        // The edge u-v is valid in one of the 
 	        // following two cases: 
 	  
@@ -127,7 +111,7 @@ public class graph {
 	  
 	    // A DFS based function to count reachable 
 	    // vertices from v 
-	 int dfsCount(Integer s, boolean[] isVisited) {
+	int dfsCount(Integer s, boolean[] isVisited) {
 	    	int count=0;
 			// Initially mark all vertices as not visited
 
@@ -169,6 +153,22 @@ public class graph {
 			return count;
 		}
 
+				//******Hamiltonian Cycle*******
+	ArrayList<Integer> clearRepeatedCities(ArrayList<Integer> cities) {
+		// Find and remove duplicate cities
+		int[] citiesArray = new int[V];
+		ArrayList<Integer> resultCircuit = new ArrayList<Integer>();
+		for(int i=0; i<cities.size(); i++) {
+			citiesArray[cities.get(i)]++;
+			if(citiesArray[cities.get(i)] == 1) {
+				resultCircuit.add(cities.get(i));
+			}
+		}
+		resultCircuit.add(resultCircuit.get(0));
+		return resultCircuit;
+	}
+
+				//*****Perfect Matching******
 	edge[] findAndAddPerfectMatches(edge[] mst,List<int[]> citylist){
     	int[] neighbourCounterOnMST = new int[V];
     	
@@ -256,10 +256,11 @@ public class graph {
 		
 	}
 
+				//******Prim Algorithm****
+
 	// A utility function to find the vertex with minimum key
 	// value, from the set of vertices not yet included in MST
-	int minKey(int key[], Boolean mstSet[])
-	{
+	int minKey(int key[], Boolean mstSet[]) {
 		// Initialize min value
 		int min = Integer.MAX_VALUE, min_index = -1;
 
@@ -274,8 +275,7 @@ public class graph {
 
 	// A utility function to print the constructed MST stored in
 	// parent[]
-	edge[] printMST(int parent[], int graph[][])
-	{
+	edge[] getMST(int parent[], int graph[][]) {
 		edge[] mst = new edge[V];
 		for (int i = 1; i < V; i++) {
 			mst[i]=new edge();
@@ -288,8 +288,7 @@ public class graph {
 
 	// Function to construct and print MST for a graph represented
 	// using adjacency matrix representation
-	edge[] primMST(int graph[][])
-	{
+	edge[] primMST(int graph[][]) {
 		// Array to store constructed MST
 		int parent[] = new int[V];
 
@@ -334,6 +333,6 @@ public class graph {
 		}
 
 		// print the constructed MST
-		return printMST(parent, graph);
+		return getMST(parent, graph);
 	}
 }

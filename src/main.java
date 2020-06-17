@@ -11,7 +11,7 @@ public class main {
 		// TODO Auto-generated method stub
 		List<int[]> cityList = new ArrayList<int[]>();
 		int distanceMatrix[][];
-		String path="./inputs/",filename="example-input-3.txt";
+		String path="./inputs/",filename="test-input-3.txt";
 
 		int V = 0;  // Number of vertices in graph 
 	    int E = 0;  // Number of edges in graph 
@@ -38,6 +38,7 @@ public class main {
 
 	    int distance = 0;
 
+	    //creating distance matrix(weighted-adjacency)
 	    for(int i=0; i<V; i++) {
 		    for(int k=0; k<V; k++) {
 		    	// Create and edge if the vertices are different
@@ -49,6 +50,7 @@ public class main {
 		    	}
 		    }
 		}
+
 	    //creating graph for given inputs
 		graph g=new graph(V,E);
 
@@ -69,7 +71,7 @@ public class main {
         g1.createEulerCircuit();
 
         //deleting repeated vertex for final form
-	    ArrayList<Integer> resultCircuit = g1.clearRepeatedCities(g1.euclidianCircuit);
+	    ArrayList<Integer> resultCircuit = g1.clearRepeatedCities(g1.eulerianCircuit);
 
         //calculating path distance
         int totalDistance = calculateTotalDistance(resultCircuit, distanceMatrix);
